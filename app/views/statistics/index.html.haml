@@ -1,4 +1,20 @@
-= form_tag :statistic_upload, multipart: true do
-  = file_field_tag :file, accept: 'text/csv'
-  = submit_tag 'Upload'
+.container
+  = form_tag :statistic_upload, multipart: true do
+    = file_field_tag :file, accept: 'text/csv'
+    = submit_tag 'Upload'
 
+  - if @statistics.present?
+    .alert Error rows count #{@statistics[:errors_count]}
+
+    %table.table
+      %thead
+        %tr
+          %th Date
+          %th CardType
+          %th SalesCount
+      %tbody
+        - @statistics[:csv_data].each do |element|
+          %tr
+            %td #{element['Date']}
+            %td #{element['CardType'].capitalize}
+            %td #{element['SalesCount']}

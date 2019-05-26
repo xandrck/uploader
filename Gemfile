@@ -41,6 +41,7 @@ gem 'haml', '~> 5.0', '>= 5.0.4'
 gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'haml', '~> 5.0', '>= 5.0.4'
+gem 'chartkick'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
