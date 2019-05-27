@@ -3,9 +3,10 @@
     = file_field_tag :file, accept: 'text/csv'
     = submit_tag 'Upload'
 
-  - if @statistics.present?
-    .alert Error rows count #{@statistics[:errors_count]}
+  - if @errors_count
+    .alert Error rows count #{@errors_count}
 
+  - if @csv_data
     %table.table
       %thead
         %tr
@@ -13,8 +14,31 @@
           %th CardType
           %th SalesCount
       %tbody
-        - @statistics[:csv_data].each do |element|
+        - @csv_data.each do |element|
           %tr
             %td #{element['Date']}
-            %td #{element['CardType'].capitalize}
+            %td #{element['CardType']}
             %td #{element['SalesCount']}
+
+  #columnchart_material{:style => "width: 100%; height: 500px;"}
+
+:javascript
+  google.charts.load('current', {'packages':['bar']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable(#{@chart_statistics.to_json.html_safe});
+
+    var options = {
+      chart: {
+        title: 'Company Sales',
+      },
+      vAxes: {
+        0: {title: 'Sales Count'}
+      }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  };
