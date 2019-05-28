@@ -9,7 +9,7 @@ RSpec.describe StatisticsController, type: :controller do
     end
   end
 
-  describe 'file upload' do
+  describe 'POST upload' do
     let(:csv_file) { fixture_file_upload('files/test.csv', 'text/csv') }
     let(:html_file) { fixture_file_upload('files/test.html', 'text/html') }
 

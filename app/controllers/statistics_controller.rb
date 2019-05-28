@@ -1,20 +1,12 @@
 class StatisticsController < ApplicationController
   def index
-    @errors = nil
-    @csv_data = nil
-    @chart_statistics = nil
+    @statistic = {}
 
     if params[:filename]
       file_exist = File.file?(Rails.root.join('storage', params[:filename]))
       valid_format = File.extname(params[:filename]) == '.csv'
 
-      statistics = []
-      statistics = Statistic.parse_csv(params[:filename]) if file_exist && valid_format
-
-      @errors = statistics[:errors_count]
-      @csv_data = statistics[:csv_data]
-
-      @chart_statistics = Statistic.parse_table_data(@csv_data)
+      @statistic = Statistic.parse_csv_to_data(params[:filename]) if file_exist && valid_format
     end
   end
 
