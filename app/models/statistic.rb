@@ -61,7 +61,7 @@ class Statistic < ApplicationRecord
       if value.include?(0)
         value.each_with_index do |el, i|
           if el == 0
-            prev_element = array[root_index - 1].present? ? array[root_index - 1][i] : 0
+            prev_element = root_index != 1 ? array[root_index - 1][i] : 0
             next_element = array[root_index + 1].present? ? array[root_index + 1][i] : 0
             value[i] = (prev_element + next_element)/2
           end

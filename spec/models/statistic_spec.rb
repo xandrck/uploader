@@ -78,6 +78,26 @@ RSpec.describe Statistic, type: :model do
 
         expect(Statistic.sanitize_table_data(parse_table_array)).to eq(result_array)
       end
+
+      it 'with first and last element contain 0 values' do
+        original_array = [
+            %w[Date Atr Blt Cop Abz Xcz],
+            ['01.04.2019', 25, 34, 23, 0, 0],
+            ['02.04.2019', 0, 4, 48, 2, 0],
+            ['04.04.2019', 0, 138, 5, 20, 0],
+            ['07.04.2019', 12, 0, 0, 0, 0]
+        ]
+
+        result_array = [
+            %w[Date Atr Blt Cop Abz Xcz],
+            ['01.04.2019', 25, 34, 23, 1, 0],
+            ['02.04.2019', 12, 4, 48, 2, 0],
+            ['04.04.2019', 12, 138, 5, 20, 0],
+            ['07.04.2019', 12, 69, 2, 10, 0]
+        ]
+
+        expect(Statistic.sanitize_table_data(original_array)).to eq(result_array)
+      end
     end
   end
 end
