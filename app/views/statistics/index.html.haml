@@ -1,11 +1,12 @@
-.container
+.mb-4
   = form_tag :statistic_upload, multipart: true do
     = file_field_tag :file, accept: 'text/csv'
     = submit_tag 'Upload'
 
-  - if @statistic.present?
+- if @statistic.present?
+  .mb-6
     - if @statistic[:errors_count] > 0
-      .alert Error rows count #{@statistic[:errors_count]}
+      .alert.alert-danger Error rows count #{@statistic[:errors_count]}
 
     %table.table
       %thead
@@ -19,7 +20,8 @@
             %td #{element['Date']}
             %td #{element['CardType']}
             %td #{element['SalesCount']}
-    #columnchart_material{:style => "width: 100%; height: 500px;"}
+
+  #columnchart_material
 
 :javascript
   google.charts.load('current', {'packages':['bar']});

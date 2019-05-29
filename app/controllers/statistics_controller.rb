@@ -11,14 +11,22 @@ class StatisticsController < ApplicationController
   end
 
   def upload
-    uploaded_io = params[:file]
-    raise('Wrong file format') if File.extname(uploaded_io.original_filename) != '.csv'
+    path = root_path
 
-    File.open(Rails.root.join('storage', uploaded_io.original_filename), 'wb') do |file|
-      file.write(uploaded_io.read)
+    if params[:file]
+      uploaded_io = params[:file]
+      raise('Wrong file format') if File.extname(uploaded_io.original_filename) != '.csv'
+
+      # saving file to storage to reduce path length instead of using tmp file path
+      # it will also cause to use storage path for test
+      File.open(Rails.root.join('storage', uploaded_io.original_filename), 'wb') do |file|
+        file.write(uploaded_io.read)
+      end
+
+      filename = params[:file].original_filename
+      path = root_path(filename: filename)
     end
 
-    filename = params[:file].original_filename
-    redirect_to root_path(filename: filename)
+    redirect_to path
   end
 end
